@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
 interface Entry {
@@ -26,6 +26,7 @@ function App() {
   const [showHistory, setShowHistory] = useState(false)
   const [tradeName, setTradeName] = useState('')
   const [showSaveDialog, setShowSaveDialog] = useState(false)
+  const isInitialMount = useRef(true)
 
   // Load last active trade on mount
   useEffect(() => {
@@ -40,10 +41,16 @@ function App() {
         console.error('Failed to load active trade:', error)
       }
     }
+    isInitialMount.current = false
   }, [])
 
   // Auto-save active trade configuration
   useEffect(() => {
+    // Skip auto-save on initial mount to allow loading from localStorage first
+    if (isInitialMount.current) {
+      return
+    }
+
     const activeState: SavedTrade = {
       id: 'active',
       name: 'Active Trade',
