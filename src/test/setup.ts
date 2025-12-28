@@ -1,4 +1,4 @@
-import { expect, afterEach, beforeEach } from 'vitest'
+import { expect, afterEach } from 'vitest'
 import { cleanup } from '@testing-library/react'
 import * as matchers from '@testing-library/jest-dom/matchers'
 
@@ -35,7 +35,7 @@ class LocalStorageMock {
   }
 }
 
-global.localStorage = new LocalStorageMock() as Storage
+globalThis.localStorage = new LocalStorageMock() as Storage
 
 // Cleanup after each test
 afterEach(() => {
