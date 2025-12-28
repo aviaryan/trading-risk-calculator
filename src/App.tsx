@@ -86,24 +86,30 @@ function App() {
       </div>
 
       <div className="calculator-card">
-        <EntryList
-          entries={entries}
-          onUpdateEntry={updateEntry}
-          onRemoveEntry={removeEntry}
-          onAddEntry={addEntry}
-        />
+        <div className="calculator-layout">
+          <div className="calculator-inputs">
+            <EntryList
+              entries={entries}
+              onUpdateEntry={updateEntry}
+              onRemoveEntry={removeEntry}
+              onAddEntry={addEntry}
+            />
 
-        <StopLossInput
-          stopLoss={stopLoss}
-          onStopLossChange={setStopLoss}
-        />
+            <StopLossInput
+              stopLoss={stopLoss}
+              onStopLossChange={setStopLoss}
+            />
+          </div>
 
-        <SummaryResults
-          totalLoss={totalLoss}
-          totalInvestment={totalInvestment}
-          averageEntry={averageEntry}
-          totalShares={totalShares}
-        />
+          <div className="calculator-summary">
+            <SummaryResults
+              totalLoss={totalLoss}
+              totalInvestment={totalInvestment}
+              averageEntry={averageEntry}
+              totalShares={totalShares}
+            />
+          </div>
+        </div>
       </div>
 
       <SaveDialog

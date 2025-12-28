@@ -1,7 +1,7 @@
 .container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 /* Header */
@@ -45,6 +45,24 @@ h1 {
   border-radius: 12px;
   padding: 2rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.calculator-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.calculator-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.calculator-summary {
+  position: sticky;
+  top: 2rem;
 }
 
 .section {
@@ -431,6 +449,14 @@ input[type="number"]:focus {
 
   .calculator-card {
     padding: 1rem;
+  }
+
+  .calculator-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .calculator-summary {
+    position: static;
   }
 
   .input-group {
