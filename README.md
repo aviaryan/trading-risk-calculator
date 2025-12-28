@@ -4,6 +4,7 @@ A simple and intuitive risk calculator for US stock trading. Calculate your pote
 
 ## Features
 
+### Core Functionality
 - **Multiple Entries**: Add as many entry positions as you need (1, 5, 10, or more)
 - **Entry Details**: For each entry, specify:
   - Entry price (in USD)
@@ -15,12 +16,25 @@ A simple and intuitive risk calculator for US stock trading. Calculate your pote
   - Total number of shares (calculated from price and investment)
   - **Total potential loss** if stop loss is hit
 
+### Trade Management
+- **💾 Save Trades**: Save your current trade configuration with a custom name
+- **📋 Trade History**: View all your saved trades with key details
+  - Investment amount
+  - Number of entries
+  - Stop loss price
+  - Date and time saved
+- **Load Saved Trades**: Load any previously saved trade back into the calculator
+- **Auto-save**: Your active trade is automatically saved and restored when you return
+- **🔄 New Trade**: Clear current configuration and start fresh
+
 ## How to Use
 
-1. Add your entry positions using the "+ Add Entry" button
-2. For each entry, enter the entry price and the dollar amount you're investing
-3. Set your stop loss price
-4. The calculator will automatically compute shares and show your total potential loss in real-time
+1. **Set up your trade**: Add entry positions using the "+ Add Entry" button
+2. **Enter details**: For each entry, enter the entry price and dollar investment amount
+3. **Set stop loss**: Enter your stop loss price
+4. **View risk**: The calculator automatically shows your total potential loss
+5. **Save your trade**: Click "💾 Save Trade" to save the configuration for future reference
+6. **Access history**: Click "📋 History" to view, load, or delete saved trades
 
 ## Getting Started
 
