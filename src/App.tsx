@@ -1,34 +1,147 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
+interface Entry {
+  id: number
+  price: number
+  size: number
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [entries, setEntries] = useState<Entry[]>([{ id: 1, price: 0, size: 0 }])
+  const [stopLoss, setStopLoss] = useState<number>(0)
+  const [nextId, setNextId] = useState(2)
+
+  const addEntry = () => {
+    setEntries([...entries, { id: nextId, price: 0, size: 0 }])
+    setNextId(nextId + 1)
+  }
+
+  const removeEntry = (id: number) => {
+    if (entries.length > 1) {
+      setEntries(entries.filter(entry => entry.id !== id))
+    }
+  }
+
+  const updateEntry = (id: number, field: 'price' | 'size', value: number) => {
+    setEntries(entries.map(entry => 
+      entry.id === id ? { ...entry, [field]: value } : entry
+    ))
+  }
+
+  const calculateTotalLoss = () => {
+    return entries.reduce((total, entry) => {
+      if (entry.price > 0 && entry.size > 0 && stopLoss > 0) {
+        const lossPerShare = entry.price - stopLoss
+        const entryLoss = lossPerShare * entry.size
+        return total + entryLoss
+      }
+      return total
+    }, 0)
+  }
+
+  const calculateTotalShares = () => {
+    return entries.reduce((total, entry) => total + (entry.size || 0), 0)
+  }
+
+  const calculateAverageEntry = () => {
+    const totalCost = entries.reduce((total, entry) => {
+      return total + (entry.price * entry.size)
+    }, 0)
+    const totalShares = calculateTotalShares()
+    return totalShares > 0 ? totalCost / totalShares : 0
+  }
+
+  const totalLoss = calculateTotalLoss()
+  const totalShares = calculateTotalShares()
+  const averageEntry = calculateAverageEntry()
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="container">
+      <h1>Trading Risk Calculator</h1>
+      <p className="subtitle">Calculate your potential loss with multiple entries</p>
+
+      <div className="calculator-card">
+        <div className="section">
+          <h2>Entries</h2>
+          {entries.map((entry, index) => (
+            <div key={entry.id} className="entry-row">
+              <span className="entry-label">Entry {index + 1}</span>
+              <div className="input-group">
+                <label>
+                  Price ($)
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={entry.price || ''}
+                    onChange={(e) => updateEntry(entry.id, 'price', parseFloat(e.target.value) || 0)}
+                    placeholder="0.00"
+                  />
+                </label>
+                <label>
+                  Size (shares)
+                  <input
+                    type="number"
+                    min="0"
+                    value={entry.size || ''}
+                    onChange={(e) => updateEntry(entry.id, 'size', parseInt(e.target.value) || 0)}
+                    placeholder="0"
+                  />
+                </label>
+              </div>
+              {entries.length > 1 && (
+                <button 
+                  className="btn-remove" 
+                  onClick={() => removeEntry(entry.id)}
+                  aria-label="Remove entry"
+                >
+                  ×
+                </button>
+              )}
+            </div>
+          ))}
+          <button className="btn-add" onClick={addEntry}>
+            + Add Entry
+          </button>
+        </div>
+
+        <div className="section">
+          <h2>Stop Loss</h2>
+          <label className="stop-loss-input">
+            Stop Loss Price ($)
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              value={stopLoss || ''}
+              onChange={(e) => setStopLoss(parseFloat(e.target.value) || 0)}
+              placeholder="0.00"
+            />
+          </label>
+        </div>
+
+        <div className="results">
+          <h2>Summary</h2>
+          <div className="results-grid">
+            <div className="result-item">
+              <span className="result-label">Total Shares</span>
+              <span className="result-value">{totalShares.toLocaleString()}</span>
+            </div>
+            <div className="result-item">
+              <span className="result-label">Average Entry Price</span>
+              <span className="result-value">${averageEntry.toFixed(2)}</span>
+            </div>
+            <div className="result-item highlight">
+              <span className="result-label">Potential Loss</span>
+              <span className="result-value loss">
+                ${totalLoss.toFixed(2)}
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 

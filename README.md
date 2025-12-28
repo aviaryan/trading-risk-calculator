@@ -1,6 +1,42 @@
-# React + TypeScript + Vite
+# Trading Risk Calculator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple and intuitive risk calculator for US stock trading. Calculate your potential loss across multiple entry positions with a single stop loss.
+
+## Features
+
+- **Multiple Entries**: Add as many entry positions as you need (1, 5, 10, or more)
+- **Entry Details**: For each entry, specify:
+  - Entry price (in USD)
+  - Position size (number of shares)
+- **Stop Loss**: Set a single stop loss price for all entries
+- **Risk Calculation**: Automatically calculates:
+  - Total number of shares across all entries
+  - Average entry price
+  - **Total potential loss** if stop loss is hit
+
+## How to Use
+
+1. Add your entry positions using the "+ Add Entry" button
+2. For each entry, enter the price and number of shares
+3. Set your stop loss price
+4. The calculator will show your total potential loss in real-time
+
+## Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+```
+
+## Tech Stack
+
+- React + TypeScript + Vite
 
 Currently, two official plugins are available:
 
