@@ -47,7 +47,26 @@ npm run dev
 
 # Build for production
 npm run build
+
+# Run tests
+npm test
+
+# Run tests with UI
+npm run test:ui
+
+# Run tests once (for CI)
+npm run test:run
 ```
+
+## Testing
+
+This project includes a comprehensive test suite using **Vitest** and **React Testing Library**.
+
+- **35+ tests** covering all major features
+- Tests for calculations, UI interactions, and localStorage functionality
+- See [TEST_README.md](./TEST_README.md) for detailed testing documentation
+
+**Note**: If you encounter issues running tests due to Node version compatibility with jsdom, see the troubleshooting section in TEST_README.md.
 
 ## Tech Stack
 
