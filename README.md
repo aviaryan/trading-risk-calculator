@@ -7,19 +7,20 @@ A simple and intuitive risk calculator for US stock trading. Calculate your pote
 - **Multiple Entries**: Add as many entry positions as you need (1, 5, 10, or more)
 - **Entry Details**: For each entry, specify:
   - Entry price (in USD)
-  - Position size (number of shares)
+  - Investment amount (in USD) - the dollar amount you're investing at this entry
 - **Stop Loss**: Set a single stop loss price for all entries
 - **Risk Calculation**: Automatically calculates:
-  - Total number of shares across all entries
-  - Average entry price
+  - Total investment across all entries
+  - Average entry price (weighted by investment)
+  - Total number of shares (calculated from price and investment)
   - **Total potential loss** if stop loss is hit
 
 ## How to Use
 
 1. Add your entry positions using the "+ Add Entry" button
-2. For each entry, enter the price and number of shares
+2. For each entry, enter the entry price and the dollar amount you're investing
 3. Set your stop loss price
-4. The calculator will show your total potential loss in real-time
+4. The calculator will automatically compute shares and show your total potential loss in real-time
 
 ## Getting Started
 

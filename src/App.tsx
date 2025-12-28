@@ -4,16 +4,16 @@ import './App.css'
 interface Entry {
   id: number
   price: number
-  size: number
+  investment: number
 }
 
 function App() {
-  const [entries, setEntries] = useState<Entry[]>([{ id: 1, price: 0, size: 0 }])
+  const [entries, setEntries] = useState<Entry[]>([{ id: 1, price: 0, investment: 0 }])
   const [stopLoss, setStopLoss] = useState<number>(0)
   const [nextId, setNextId] = useState(2)
 
   const addEntry = () => {
-    setEntries([...entries, { id: nextId, price: 0, size: 0 }])
+    setEntries([...entries, { id: nextId, price: 0, investment: 0 }])
     setNextId(nextId + 1)
   }
 
@@ -23,43 +23,53 @@ function App() {
     }
   }
 
-  const updateEntry = (id: number, field: 'price' | 'size', value: number) => {
+  const updateEntry = (id: number, field: 'price' | 'investment', value: number) => {
     setEntries(entries.map(entry => 
       entry.id === id ? { ...entry, [field]: value } : entry
     ))
   }
 
+  const calculateShares = (entry: Entry) => {
+    return entry.price > 0 ? entry.investment / entry.price : 0
+  }
+
   const calculateTotalLoss = () => {
     return entries.reduce((total, entry) => {
-      if (entry.price > 0 && entry.size > 0 && stopLoss > 0) {
+      if (entry.price > 0 && entry.investment > 0 && stopLoss > 0) {
+        const shares = calculateShares(entry)
         const lossPerShare = entry.price - stopLoss
-        const entryLoss = lossPerShare * entry.size
+        const entryLoss = lossPerShare * shares
         return total + entryLoss
       }
       return total
     }, 0)
   }
 
+  const calculateTotalInvestment = () => {
+    return entries.reduce((total, entry) => total + (entry.investment || 0), 0)
+  }
+
   const calculateTotalShares = () => {
-    return entries.reduce((total, entry) => total + (entry.size || 0), 0)
+    return entries.reduce((total, entry) => {
+      return total + calculateShares(entry)
+    }, 0)
   }
 
   const calculateAverageEntry = () => {
-    const totalCost = entries.reduce((total, entry) => {
-      return total + (entry.price * entry.size)
-    }, 0)
+    const totalInvestment = calculateTotalInvestment()
     const totalShares = calculateTotalShares()
-    return totalShares > 0 ? totalCost / totalShares : 0
+    return totalShares > 0 ? totalInvestment / totalShares : 0
   }
 
   const totalLoss = calculateTotalLoss()
+  const totalInvestment = calculateTotalInvestment()
   const totalShares = calculateTotalShares()
   const averageEntry = calculateAverageEntry()
 
   return (
     <div className="container">
       <h1>Trading Risk Calculator</h1>
-      <p className="subtitle">Calculate your potential loss with multiple entries</p>
+      <p className="subtitle">Calculate your potential loss based on dollar investment across multiple entries</p>
 
       <div className="calculator-card">
         <div className="section">
@@ -80,13 +90,14 @@ function App() {
                   />
                 </label>
                 <label>
-                  Size (shares)
+                  Investment ($)
                   <input
                     type="number"
+                    step="0.01"
                     min="0"
-                    value={entry.size || ''}
-                    onChange={(e) => updateEntry(entry.id, 'size', parseInt(e.target.value) || 0)}
-                    placeholder="0"
+                    value={entry.investment || ''}
+                    onChange={(e) => updateEntry(entry.id, 'investment', parseFloat(e.target.value) || 0)}
+                    placeholder="0.00"
                   />
                 </label>
               </div>
@@ -125,12 +136,16 @@ function App() {
           <h2>Summary</h2>
           <div className="results-grid">
             <div className="result-item">
-              <span className="result-label">Total Shares</span>
-              <span className="result-value">{totalShares.toLocaleString()}</span>
+              <span className="result-label">Total Investment</span>
+              <span className="result-value">${totalInvestment.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
             </div>
             <div className="result-item">
               <span className="result-label">Average Entry Price</span>
               <span className="result-value">${averageEntry.toFixed(2)}</span>
+            </div>
+            <div className="result-item">
+              <span className="result-label">Total Shares</span>
+              <span className="result-value">{totalShares.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
             </div>
             <div className="result-item highlight">
               <span className="result-label">Potential Loss</span>
