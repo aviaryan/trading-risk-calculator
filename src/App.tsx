@@ -69,7 +69,6 @@ function App() {
   return (
     <div className="container">
       <h1>Trading Risk Calculator</h1>
-      <p className="subtitle">Calculate your potential loss based on dollar investment across multiple entries</p>
 
       <div className="calculator-card">
         <div className="section">
@@ -135,6 +134,12 @@ function App() {
         <div className="results">
           <h2>Summary</h2>
           <div className="results-grid">
+            <div className="result-item result-loss">
+              <span className="result-label">Potential Loss</span>
+              <span className="result-value loss">
+                {totalLoss > 0 ? '-' : ''} ${totalLoss.toFixed(2)}
+              </span>
+            </div>
             <div className="result-item">
               <span className="result-label">Total Investment</span>
               <span className="result-value">${totalInvestment.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
@@ -146,12 +151,6 @@ function App() {
             <div className="result-item">
               <span className="result-label">Total Shares</span>
               <span className="result-value">{totalShares.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-            </div>
-            <div className="result-item highlight">
-              <span className="result-label">Potential Loss</span>
-              <span className="result-value loss">
-                ${totalLoss.toFixed(2)}
-              </span>
             </div>
           </div>
         </div>

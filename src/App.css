@@ -11,13 +11,6 @@ h1 {
   text-align: center;
 }
 
-.subtitle {
-  text-align: center;
-  color: #7f8c8d;
-  margin-bottom: 2rem;
-  font-size: 1.1rem;
-}
-
 .calculator-card {
   background: white;
   border-radius: 12px;
@@ -158,9 +151,9 @@ input[type="number"]:focus {
   backdrop-filter: blur(10px);
 }
 
-.result-item.highlight {
-  background: rgba(255, 255, 255, 0.2);
-  border: 2px solid rgba(255, 255, 255, 0.4);
+.result-item.result-loss {
+  background: rgba(255, 0, 0, 0.5);
+  border: 2px solid rgba(255, 0, 0, 1);
 }
 
 .result-label {
