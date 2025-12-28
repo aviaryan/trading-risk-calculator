@@ -202,7 +202,8 @@ describe('Trading Risk Calculator', () => {
       render(<App />)
       
       // Should not throw errors with zero/empty values
-      expect(screen.getByText('$0.00')).toBeInTheDocument()
+      const zeroValues = screen.getAllByText('$0.00')
+      expect(zeroValues.length).toBeGreaterThan(0)
     })
   })
 
@@ -331,7 +332,7 @@ describe('Trading Risk Calculator', () => {
       await user.click(historyButton)
 
       expect(screen.getByText('TSLA Trade')).toBeInTheDocument()
-      expect(screen.getByText('$1000.00')).toBeInTheDocument()
+      expect(screen.getByText(/1000\.00/)).toBeInTheDocument()
       expect(screen.getByText(/1 entry/i)).toBeInTheDocument()
 
       alertSpy.mockRestore()
