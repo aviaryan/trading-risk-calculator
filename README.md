@@ -1,5 +1,7 @@
 # Trading Risk Calculator
 
+> https://trading-risk-calculator.netlify.app
+
 ![Screenshot](https://github.com/user-attachments/assets/4209b6cf-3037-40cd-8367-a0010a1eb524)
 
 A simple and intuitive risk calculator for US stock trading. Calculate your potential loss across multiple entry positions with a single stop loss.
